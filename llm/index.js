@@ -41,14 +41,28 @@ const llm = new ChatGoogleGenerativeAI({
     // other params...
 })
 
-const aiMsg = await llm.invoke([
-    [
-        "system",
-        "You are a helpful assistant that translates English to French. Translate the user sentence.",
-    ],
-    ["human", "I love programming."],
-])
-aiMsg
+
+
+app.post("/ask-ai",async(req,res)=>{
+  const {input} = req.body
+
+
+ const response= await llm.invoke(input)
+
+  return res.status(200).json({"ai":response.content})
+
+})
+
+
+
+// const aiMsg = await llm.invoke([
+//     [
+//         "system",
+//         "You are a helpful assistant that translates English to French. Translate the user sentence.",
+//     ],
+//     ["human", "I love programming."],
+// ])
+// aiMsg
 
 app.get("/",(req,res)=>{
   console.log("hello its llm")
