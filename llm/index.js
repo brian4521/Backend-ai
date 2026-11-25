@@ -37,9 +37,10 @@ app.use(express.json())
 const llm = new ChatGoogleGenerativeAI({
     model: "gemini-2.5-pro",
     temperature: 0,
+    maxOutputTokens:100,
     maxRetries: 2,
-    // other params...
-})
+    
+  })
 
 
 
@@ -47,13 +48,16 @@ app.post("/ask-ai",async(req,res)=>{
   const {input} = req.body
 
 
- const response= await llm.invoke(input)
+ const response= await llm.invoke([
+  {role:"system",content:"you are assistant and your name is dj"},
+  {role:"human",content:input}
+  ])
 
   return res.status(200).json({"ai":response.content})
 
 })
 
-
+ 
 
 // const aiMsg = await llm.invoke([
 //     [
