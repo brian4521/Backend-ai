@@ -2,6 +2,8 @@ import express from "express"
 import dotenv from "dotenv"
 import { GoogleGenAI } from "@google/genai"
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai"
+import { StateSchema, MessagesValue, StateGraph, START, END } from "@langchain/langgraph";
+
 dotenv.config()
 
 const app = express()
@@ -56,6 +58,12 @@ app.post("/ask-ai",async(req,res)=>{
   return res.status(200).json({"ai":response.content})
 
 })
+
+
+
+const State = new StateSchema({
+  messages: MessagesValue,
+});
 
  
 
